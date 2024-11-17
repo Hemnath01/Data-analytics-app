@@ -2,8 +2,10 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import streamlit as st
-import time
-
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
+from sklearn.metrics import mean_squared_error, accuracy_score, classification_report
 st.set_page_config(
     page_title="Daily Use Analytics Portal",
     page_icon="🔹"
@@ -130,8 +132,8 @@ if(file!=None):
 
             elif graph == 'pie':
                 st.subheader("Pie Chart")
-                values = st.selectbox('Choose Numerical Values', options=list(result.columns))
                 names = st.selectbox('Choose Labels', options=list(result.columns))
+                values = st.selectbox('Choose Numerical Values', options=list(result.columns))
                 fig = px.pie(data_frame=result, values=values, names=names)
                 st.plotly_chart(fig)
 
@@ -142,3 +144,68 @@ if(file!=None):
                 fig = px.sunburst(data_frame=result, path=path, values=values)
                 st.plotly_chart(fig)
                
+
+    st.header(":blue[Apply Machine Learning]", divider="green")
+    st.subheader(":grey[Choose Problem Type]")
+
+    # Choose problem type
+    problem_type = st.radio("Select One Machine Learning Model", ["Regression", "Classification"])
+
+    # Preprocessing: Option to ignore rows with null values
+    st.subheader(":grey[Preprocessing]")
+    ignore_nulls = st.checkbox("Ignore rows with null values during training")
+    if ignore_nulls:
+        data = data.dropna()
+        st.info("Rows with null values have been removed.", icon="✅")
+    else:
+        st.warning("Rows with null values remain in the dataset. Ensure your model can handle them.", icon="⚠️")
+
+    # Model configuration
+    st.subheader(":grey[Model Configuration]")
+    target_col = st.selectbox("Select target column", options=list(data.columns))
+    feature_col = st.multiselect(
+    "Select feature columns", options=[col for col in data.columns if col != target_col]
+    )
+
+    if target_col and feature_col:
+        x = data[feature_col]
+        y = data[target_col]
+
+    # Split data
+        test_size = st.slider("Test Size (as a fraction)", min_value=0.1, max_value=0.5, step=0.1, value=0.2)
+        x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=test_size, random_state=42)
+
+        # Select model based on problem type
+        if problem_type == "Regression":
+            model_choice = st.selectbox("Choose regression model", options=["Linear Regression", "Random Forest Regressor"])
+            if model_choice == "Linear Regression":
+                model = LinearRegression()
+            elif model_choice == "Random Forest Regressor":
+                model = RandomForestRegressor()
+
+        elif problem_type == "Classification":
+            model_choice = st.selectbox("Choose classification model", options=["Logistic Regression", "Random Forest Classifier"])
+            if model_choice == "Logistic Regression":
+                model = LogisticRegression()
+            elif model_choice == "Random Forest Classifier":
+                model = RandomForestClassifier()
+
+        # Run the model
+        if st.button("Run Model"):
+            try:
+                model.fit(x_train, y_train)
+                predictions = model.predict(x_test)
+
+                st.subheader("Model Results")
+                if problem_type == "Regression":
+                    mse = mean_squared_error(y_test, predictions)
+                    st.write(f"Mean Squared Error: {mse}")
+                elif problem_type == "Classification":
+                    accuracy = accuracy_score(y_test, predictions)
+                    st.write(f"Accuracy: {accuracy}")
+                    st.text("Classification Report")
+                    st.text(classification_report(y_test, predictions))
+            except Exception as e:
+                st.error(f"An error occurred: {str(e)}")
+    else:
+        st.warning("Please select both a target column and feature columns to proceed.")
