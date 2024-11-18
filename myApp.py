@@ -296,12 +296,14 @@ if st.session_state.data is not None:
 
 # Footer
 st.markdown("""
-<hr style="border:1px solid gray; margin-top: 50px;">
-<div style="text-align: center;">
-    <p>👨‍💻 Developed by <b>Abhishek singh</b></p>
-    <p>🔗 <a href="https://www.linkedin.com/in/itsabhisheksingh2111/" target="_blank">LinkedIn</a> | 
-       📂 <a href="https://github.com/abhishekchhonkar21/Data-analytics-app">GitHub</a> | 
-       🌐 <a href="https://abhishek-portfolio2023.netlify.app/">Portfolio</a></p>
-    <p>📧 Contact: abhishekchhonkar2002@gmail.com</p>
-</div>
+"""
+---
+👨‍💻 Developed by Abhishek Singh
+            
+📧 Contact: Abhishekchhonkar2002@gmail.com
+            
+🔗 [LinkedIn](https://www.linkedin.com/in/itsabhisheksingh2111/) | 📂 [GitHub](https://github.com/abhishekchhonkar21/Data-analytics-app/tree/main) | 🌐 [Portfolio](https://abhishek-portfolio2023.netlify.app/)  
+
+
+---
 """, unsafe_allow_html=True)
