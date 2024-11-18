@@ -294,8 +294,6 @@ if st.session_state.data is not None:
         st.warning("Please select both a target column and feature columns to proceed.")
 
 
-import streamlit as st
-
 # Footer
 st.markdown("""
 <hr style="border:1px solid gray; margin-top: 50px;">
