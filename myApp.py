@@ -298,11 +298,11 @@ if st.session_state.data is not None:
 st.markdown("""
 """
 ---
-👨‍💻 Developed by Abhishek Singh
+Developed by Abhishek Singh
             
-📧 Contact: Abhishekchhonkar2002@gmail.com
+Contact: Abhishekchhonkar2002@gmail.com
             
-🔗 [LinkedIn](https://www.linkedin.com/in/itsabhisheksingh2111/) | 📂 [GitHub](https://github.com/abhishekchhonkar21/Data-analytics-app/tree/main) | 🌐 [Portfolio](https://abhishek-portfolio2023.netlify.app/)  
+[LinkedIn](https://www.linkedin.com/in/itsabhisheksingh2111/) | 📂 [GitHub](https://github.com/abhishekchhonkar21/Data-analytics-app/tree/main) | 🌐 [Portfolio](https://abhishek-portfolio2023.netlify.app/)  
 
 
 ---
